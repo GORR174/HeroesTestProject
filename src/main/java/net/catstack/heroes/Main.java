@@ -7,15 +7,13 @@ import net.catstack.heroes.repository.impl.HeroRepositoryImpl;
 
 public class Main {
     public static void main(String[] args) {
-        SQLiteDBConnector connector = new SQLiteDBConnector("heroes.db");
+        try (SQLiteDBConnector connector = new SQLiteDBConnector("heroes.db")) {
+            HeroRepository heroRepository = new HeroRepositoryImpl(connector.getConnection());
 
-        HeroRepository heroRepository = new HeroRepositoryImpl(connector.getConnection());
+            heroRepository.addHero(new Hero("Test", 7, "Testing"));
+            heroRepository.addHero(new Hero("Iron Man", 15, "Flying"));
 
-        heroRepository.addHero(new Hero("Test", 7, "Testing"));
-        heroRepository.addHero(new Hero("Iron Man", 15, "Flying"));
-
-        heroRepository.getHeroes().forEach(System.out::println);
-
-        connector.close();
+            heroRepository.getHeroes().forEach(System.out::println);
+        }
     }
 }
