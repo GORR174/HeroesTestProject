@@ -31,6 +31,10 @@ public class Hero {
         return level;
     }
 
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public String getUltimate() {
         return ultimate;
     }
