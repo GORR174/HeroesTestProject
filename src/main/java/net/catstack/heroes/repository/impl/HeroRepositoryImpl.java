@@ -9,6 +9,18 @@ import java.util.List;
 
 public class HeroRepositoryImpl implements HeroRepository {
 
+    private static final String CREATE_TABLE_QUERY =
+            "CREATE TABLE IF NOT EXISTS heroes (" +
+                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                    "name VARCHAR NOT NULL," +
+                    "level INTEGER NOT NULL," +
+                    "ultimate VARCHAR NOT NULL" +
+                    ");";
+
+    private static final String INSERT_HERO_QUERY = "INSERT INTO heroes (name, level, ultimate) VALUES (?, ?, ?);";
+
+    private static final String GET_HEROES_QUERY = "SELECT * FROM heroes";
+
     private Connection connection;
 
     public HeroRepositoryImpl(Connection connection) {
@@ -19,12 +31,7 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     private void createHeroTable() {
         try (Statement statement = connection.createStatement()) {
-            statement.execute("CREATE TABLE IF NOT EXISTS heroes (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name VARCHAR NOT NULL," +
-                    "level INTEGER NOT NULL," +
-                    "ultimate VARCHAR NOT NULL" +
-                    ");");
+            statement.execute(CREATE_TABLE_QUERY);
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
@@ -32,9 +39,7 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     @Override
     public void addHero(Hero hero) {
-        String request = "INSERT INTO heroes (name, level, ultimate) VALUES (?, ?, ?);";
-
-        try (PreparedStatement statement = connection.prepareStatement(request)) {
+        try (PreparedStatement statement = connection.prepareStatement(INSERT_HERO_QUERY)) {
             statement.setString(1, hero.getName());
             statement.setLong(2, hero.getLevel());
             statement.setString(3, hero.getUltimate());
@@ -47,16 +52,16 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     @Override
     public List<Hero> getHeroes() {
-        ArrayList<Hero> resultList = new ArrayList<>();
+        List<Hero> resultList = new ArrayList<>();
 
         try (Statement statement = connection.createStatement()) {
-            ResultSet results = statement.executeQuery("SELECT * FROM heroes");
+            ResultSet results = statement.executeQuery(GET_HEROES_QUERY);
 
             while (results.next()) {
-                long id = results.getLong(1);
-                String name = results.getString(2);
-                int level = results.getInt(3);
-                String ultimate = results.getString(4);
+                long id = results.getLong("id");
+                String name = results.getString("name");
+                int level = results.getInt("level");
+                String ultimate = results.getString("ultimate");
 
                 resultList.add(new Hero(id, name, level, ultimate));
             }
