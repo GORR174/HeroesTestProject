@@ -4,11 +4,11 @@ import java.io.*;
 
 public class Pudge extends Hero implements Externalizable {
     public Pudge() {
-        super("Pudge", 1, "Dismember");
+        super(1, "Pudge", 1, "Dismember");
     }
 
     public Pudge(int level) {
-        super("Pudge", level, "Dismember");
+        super(1, "Pudge", level, "Dismember");
     }
 
     @Override
