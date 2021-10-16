@@ -1,9 +1,19 @@
 package net.catstack.heroes.model;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Size;
+
 public class Hero {
     private long id;
+
+    @Size(min = 4, max = 14)
     private String name;
+
+    @Min(value = 0)
+    @Max(value = 30)
     private int level;
+
     private String ultimate;
 
     public Hero() {
