@@ -2,11 +2,13 @@ package net.catstack.heroes.repository.impl;
 
 import net.catstack.heroes.model.Hero;
 import net.catstack.heroes.repository.HeroRepository;
+import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class HeroRepositoryImpl implements HeroRepository {
 
     private static final String CREATE_TABLE_QUERY =

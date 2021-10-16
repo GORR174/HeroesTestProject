@@ -1,14 +1,18 @@
 package net.catstack.heroes.jdbc;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+@Component
 public class SQLiteDBConnector implements AutoCloseable {
 
     private Connection connection;
 
-    public SQLiteDBConnector(String dbPath) {
+    public SQLiteDBConnector(@Value("${application.db-path}") String dbPath) {
         try {
             connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
 

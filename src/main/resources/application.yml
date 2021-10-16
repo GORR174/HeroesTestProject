@@ -1,3 +1,6 @@
 server:
   servlet:
     context-path: /api
+
+application:
+  db-path: heroes.db

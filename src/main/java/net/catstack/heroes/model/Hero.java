@@ -6,6 +6,10 @@ public class Hero {
     private int level;
     private String ultimate;
 
+    public Hero() {
+
+    }
+
     public Hero(String name, int level, String ultimate) {
         this.name = name;
         this.level = level;
