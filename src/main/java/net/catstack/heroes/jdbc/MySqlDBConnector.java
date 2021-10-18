@@ -1,23 +1,22 @@
 package net.catstack.heroes.jdbc;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Component("sqlite")
-public class SQLiteDBConnector implements DBConnector {
+@Component("mysql")
+public class MySqlDBConnector implements DBConnector {
 
     private Connection connection;
 
-    public SQLiteDBConnector(@Value("${application.db-path}") String dbPath) {
+    public MySqlDBConnector() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:" + dbPath);
+            connection = DriverManager.getConnection("jdbc:mysql://localhost:3309/db", "gorr", "pswd123");
 
             if (!connection.isClosed()) {
-                System.out.println("Connected to SQLite DB");
+                System.out.println("Connected to MySql DB");
             }
         } catch (SQLException e) {
             e.printStackTrace();

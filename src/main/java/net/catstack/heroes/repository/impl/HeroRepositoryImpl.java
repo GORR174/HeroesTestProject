@@ -13,10 +13,10 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     private static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS heroes (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name VARCHAR NOT NULL," +
-                    "level INTEGER NOT NULL," +
-                    "ultimate VARCHAR NOT NULL" +
+                    "id INTEGER PRIMARY KEY auto_increment," +
+                    "name VARCHAR(50) NOT NULL," +
+                    "level INTEGER NOT NULL ," +
+                    "ultimate VARCHAR(50) NOT NULL" +
                     ");";
 
     private static final String INSERT_HERO_QUERY = "INSERT INTO heroes (name, level, ultimate) VALUES (?, ?, ?);";
