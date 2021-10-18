@@ -13,15 +13,17 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     private static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS heroes (" +
-                    "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "name VARCHAR NOT NULL," +
-                    "level INTEGER NOT NULL," +
-                    "ultimate VARCHAR NOT NULL" +
+                    "id INTEGER PRIMARY KEY auto_increment," +
+                    "name VARCHAR(50) NOT NULL," +
+                    "level INTEGER NOT NULL ," +
+                    "ultimate VARCHAR(50) NOT NULL" +
                     ");";
 
     private static final String INSERT_HERO_QUERY = "INSERT INTO heroes (name, level, ultimate) VALUES (?, ?, ?);";
 
     private static final String GET_HEROES_QUERY = "SELECT * FROM heroes";
+
+    private static final String GET_HERO_BY_ID_QUERY = "SELECT * FROM heroes WHERE id=?";
 
     private Connection connection;
 
@@ -53,6 +55,23 @@ public class HeroRepositoryImpl implements HeroRepository {
     }
 
     @Override
+    public Hero getHeroById(long id) {
+        try (PreparedStatement statement = connection.prepareStatement(GET_HERO_BY_ID_QUERY)) {
+            statement.setLong(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            resultSet.next();
+
+            return getHeroFromResultSet(resultSet);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+            return null;
+        }
+    }
+
+    @Override
     public List<Hero> getHeroes() {
         List<Hero> resultList = new ArrayList<>();
 
@@ -60,17 +79,21 @@ public class HeroRepositoryImpl implements HeroRepository {
             ResultSet results = statement.executeQuery(GET_HEROES_QUERY);
 
             while (results.next()) {
-                long id = results.getLong("id");
-                String name = results.getString("name");
-                int level = results.getInt("level");
-                String ultimate = results.getString("ultimate");
-
-                resultList.add(new Hero(id, name, level, ultimate));
+                resultList.add(getHeroFromResultSet(results));
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
         }
 
         return resultList;
+    }
+
+    private Hero getHeroFromResultSet(ResultSet resultSet) throws SQLException {
+        long id = resultSet.getLong("id");
+        String name = resultSet.getString("name");
+        int level = resultSet.getInt("level");
+        String ultimate = resultSet.getString("ultimate");
+
+        return new Hero(id, name, level, ultimate);
     }
 }

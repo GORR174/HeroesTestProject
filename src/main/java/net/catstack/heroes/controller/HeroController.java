@@ -25,6 +25,11 @@ public class HeroController {
         return new Pudge(10);
     }
 
+    @GetMapping("/hero/{id}")
+    public Hero getHero(@PathVariable long id) {
+        return heroRepository.getHeroById(id);
+    }
+
     @PostMapping("/hero")
     public Hero addHero(@RequestBody @Valid Hero hero) {
         heroRepository.addHero(hero);
