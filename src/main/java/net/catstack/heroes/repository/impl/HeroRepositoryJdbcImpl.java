@@ -1,7 +1,7 @@
 package net.catstack.heroes.repository.impl;
 
 import net.catstack.heroes.model.Hero;
-import net.catstack.heroes.repository.HeroRepository;
+import net.catstack.heroes.repository.HeroRepositoryJdbc;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class HeroRepositoryImpl implements HeroRepository {
+public class HeroRepositoryJdbcImpl implements HeroRepositoryJdbc {
 
     private static final String CREATE_TABLE_QUERY =
             "CREATE TABLE IF NOT EXISTS heroes (" +
@@ -27,7 +27,7 @@ public class HeroRepositoryImpl implements HeroRepository {
 
     private Connection connection;
 
-    public HeroRepositoryImpl(Connection connection) {
+    public HeroRepositoryJdbcImpl(Connection connection) {
         this.connection = connection;
 
         createHeroTable();

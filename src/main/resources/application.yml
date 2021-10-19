@@ -4,3 +4,12 @@ server:
 
 application:
   db-path: heroes.db
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://localhost:3309/db
+    username: gorr
+    password: pswd123
+    driver-class-name: com.mysql.jdbc.Driver
