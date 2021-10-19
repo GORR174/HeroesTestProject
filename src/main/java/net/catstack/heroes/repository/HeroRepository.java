@@ -1,13 +1,9 @@
 package net.catstack.heroes.repository;
 
 import net.catstack.heroes.model.Hero;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-public interface HeroRepository {
-    void addHero(Hero hero);
-
-    Hero getHeroById(long id);
-
-    List<Hero> getHeroes();
+@Repository
+public interface HeroRepository extends JpaRepository<Hero, Long> {
 }
