@@ -3,8 +3,7 @@ package net.catstack.heroes.controller;
 import net.catstack.heroes.model.Hero;
 import net.catstack.heroes.model.Pudge;
 import net.catstack.heroes.model.errors.ValidationError;
-import net.catstack.heroes.repository.HeroRepository;
-import net.catstack.heroes.repository.HeroRepositoryJdbc;
+import net.catstack.heroes.service.HeroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -15,10 +14,10 @@ import java.util.List;
 @RestController
 public class HeroController {
 
-    private final HeroRepository heroRepository;
+    private final HeroService heroService;
 
-    public HeroController(HeroRepository heroRepository) {
-        this.heroRepository = heroRepository;
+    public HeroController(HeroService heroService) {
+        this.heroService = heroService;
     }
 
     @GetMapping("/hero")
@@ -28,18 +27,17 @@ public class HeroController {
 
     @GetMapping("/hero/{id}")
     public Hero getHero(@PathVariable long id) {
-        return heroRepository.findById(id).orElse(null);
+        return heroService.getHeroById(id);
     }
 
     @PostMapping("/hero")
     public Hero addHero(@RequestBody @Valid Hero hero) {
-        heroRepository.save(hero);
-        return new Hero(100, hero.getName(), hero.getLevel(), hero.getUltimate());
+        return heroService.saveHero(hero);
     }
 
     @GetMapping("/heroes")
     public List<Hero> getHeroes() {
-        return heroRepository.findAll();
+        return heroService.getHeroes();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
